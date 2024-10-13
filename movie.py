@@ -1,4 +1,5 @@
 import logging
+from abc import ABC, abstractmethod
 class Movie:
     """
     A movie available for rent.
@@ -12,33 +13,22 @@ class Movie:
         # Initialize a new movie. 
         self.title = title
         self.price_code = price_code
+        self.price_strategy = self.set_strategy(price_code)
+
+    def set_strategy(self,price_code):
+        if price_code == Movie.REGULAR:
+            return RegularPrice()
+        elif price_code == Movie.CHILDRENS:
+            return ChildrensPrice()
+        elif price_code == Movie.NEW_RELEASE:
+            return NewRelease()
 
     def get_price(self, days):
-        if self.price_code == Movie.REGULAR:
-            # Two days for $2, additional days 1.50 per day.
-            amount = 2.0
-            if days > 2:
-                amount += 1.5 * (days - 2)
-        elif self.price_code == Movie.CHILDRENS:
-            # Three days for $1.50, additional days 1.50 per day.
-            amount = 1.5
-            if days > 3:
-                amount += 1.5 * (days - 3)
-        elif self.price_code == Movie.NEW_RELEASE:
-            # Straight $3 per day charge
-            amount = 3 * days
-        else:
-            log = logging.getLogger()
-            log.error(f"Movie {self.title} has unrecognized priceCode {self.price_code}")
-        return amount
+        return self.price_strategy.get_price(days)
+
 
     def get_rental_points(self, days):
-        if self.price_code == Movie.NEW_RELEASE:
-            # New release earns 1 point per day rented
-            return days
-        else:
-            # Other rentals get only 1 point
-            return 1
+        return self.price_strategy.get_rental_points(days)
 
     def get_price_code(self):
         # get the price code
@@ -49,3 +39,50 @@ class Movie:
     
     def __str__(self):
         return self.title
+
+
+
+class PriceStrategy(ABC):
+
+    @abstractmethod
+    def get_price(self, days: int) -> float:
+        pass
+
+    @abstractmethod
+    def get_rental_points(self, days: int) -> int:
+        pass
+
+class NewRelease(PriceStrategy):
+
+    def get_price(self, days: int) -> float:
+        return 3 * days
+
+    def get_rental_points(self, days: int) -> int:
+        return days
+
+
+class RegularPrice(PriceStrategy):
+
+    def get_price(self, days: int) -> float:
+        amount = 2.0
+        if days > 2:
+            amount += 1.5 * (days - 2)
+        return amount
+
+    def get_rental_points(self, days: int) -> int:
+        return 1
+
+
+class ChildrensPrice(PriceStrategy):
+
+    def get_price(self, days: int) -> float:
+        amount = 1.5
+        if days > 3:
+            amount += 1.5 * (days - 3)
+        return amount
+
+    def get_rental_points(self, days: int) -> int:
+        return 1
+
+
+
