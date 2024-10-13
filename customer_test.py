@@ -26,6 +26,13 @@ class CustomerTest(unittest.TestCase):
 		self.c.add_rental(Rental(self.regular_movie, 7))
 		total = self.c.total_charge()
 		self.assertEqual(total, 27.5)
+
+	def test_rental_points(self):
+		self.c.add_rental(Rental(self.new_movie, 4))
+		self.c.add_rental(Rental(self.childrens_movie, 5))
+		self.c.add_rental(Rental(self.regular_movie, 10))
+		total_points = self.c.total_rental_points()
+		self.assertEqual(total_points, 6)
 	
 	def test_statement(self):
 		stmt = self.c.statement()
