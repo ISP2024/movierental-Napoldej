@@ -1,9 +1,18 @@
 from abc import ABC, abstractmethod
-
+from movie import Movie
 
 
 class PriceStrategy(ABC):
     _instance = None
+
+    @staticmethod
+    def price_code_for_movie(movie : Movie):
+        if movie.year == 2024:
+            return NewRelease()
+        elif any(genre.lower() in ["children", "childrens"] for genre in movie.genre):
+            return ChildrensPrice()
+        else:
+            return RegularPrice()
 
     @abstractmethod
     def get_price(self, days: int) -> float:

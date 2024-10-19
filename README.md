@@ -27,3 +27,8 @@ which requires access to the price_code to determine rental pricing. By moving p
 because each class should have one responsibility to deal. In this case, Movie should responsible
 for holding movie-related data such as title and year. While rental should be responsible for rental behavior, including pricing
 by moving price_code from movie into rental.
+
+3. Write your answer in README.md, in a section named Rationale. Describe where you implement this method and the reasons for your choice. Include one or more of these design principles to justify your design and how it applies:
+- Answer: I have implemented price_code_for_movie in PriceStrategy class because it does not violate the Single Responsibility Principle (SRP). In other words, This class has a clear responsibility to handle pricing strategies.
+Implementing price_code_for_movie in PriceStrategy is good with SRP since Movie is handle about movie related data and rental is handle about pricing.
+

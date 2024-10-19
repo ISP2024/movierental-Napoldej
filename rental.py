@@ -1,6 +1,7 @@
 import logging
-from movie import Movie
-from pricing import *
+from movie import  MovieCatalog
+from pricing import PriceStrategy
+
 
 class Rental:
    """
@@ -12,9 +13,6 @@ class Rental:
    rental period is calculated.
    For simplicity of this application only days_rented is recorded.
    """
-   REGULAR = RegularPrice()
-   NEW_RELEASE = NewRelease()
-   CHILDRENS = ChildrensPrice()
 
    def __init__(self, movie, days_rented, price_code):
       """

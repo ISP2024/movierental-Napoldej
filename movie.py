@@ -18,6 +18,9 @@ class Movie:
         """
         return genre_name.lower() in (g.lower() for g in self.genre)
 
+    def get_title(self):
+        return self.title
+
     def __str__(self) -> str:
         """
         Return a string representation of the Movie in the format "Title (year)".
@@ -49,8 +52,6 @@ class MovieCatalog:
                     return Movie(movie_title, movie_year, genres)
 
         return None
-
-
 
 
 
