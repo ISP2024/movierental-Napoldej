@@ -5,14 +5,10 @@ class Movie:
     A movie available for rent.
     """
     # The types of movies (price_code).
-    REGULAR = RegularPrice()
-    NEW_RELEASE = NewRelease()
-    CHILDRENS = ChildrensPrice()
 
-    def __init__(self, title, price_code):
+    def __init__(self, title):
         # Initialize a new movie.
         self.title = title
-        self.price_strategy = price_code
 
 
     def get_title(self):
