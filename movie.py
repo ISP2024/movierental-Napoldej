@@ -15,14 +15,6 @@ class Movie:
         self.price_strategy = price_code
 
 
-    def get_price(self, days):
-        return self.price_strategy.get_price(days)
-
-
-    def get_rental_points(self, days):
-        return self.price_strategy.get_rental_points(days)
-
-
     def get_title(self):
         return self.title
 

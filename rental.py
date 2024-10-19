@@ -21,10 +21,10 @@ class Rental:
       self.days_rented = days_rented
       
    def get_price(self):
-        return self.movie.get_price(self.days_rented)
+        return self.movie.price_strategy.get_price(self.days_rented)
 
    def rental_points(self):
-       return self.movie.get_rental_points(self.days_rented)
+       return self.movie.price_strategy.get_rental_points(self.days_rented)
 
 
    def get_movie(self):
