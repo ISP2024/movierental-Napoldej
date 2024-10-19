@@ -1,6 +1,9 @@
 from typing import Collection, List
 from dataclasses import dataclass
 import csv
+import logging
+
+logger = logging.getLogger(__name__)
 @dataclass(frozen= True)
 class Movie:
     """
@@ -40,18 +43,29 @@ class MovieCatalog:
 
     def get_movie(self, title: str, year=None):
         """Search for a movie by title and year while reading the file line by line."""
-        with open("movies_data.csv", mode='r', encoding='utf-8') as file:
+        with open("movies_data1.csv", mode='r', encoding='utf-8') as file:
             csv_reader = csv.reader(file)
+            line_number = 0
             next(csv_reader)
             for row in csv_reader:
-                movie_title = row[1]
-                movie_year = int(row[2])
-                genres = row[3].split('|')
+                line_number += 1
+                try:
+                    movie_title = row[1]
+                    movie_year = int(row[2])
+                    genres = row[3].split('|')
 
-                if movie_title == title and (year is None or movie_year == year):
-                    return Movie(movie_title, movie_year, genres)
+                    if movie_title == title and (year is None or movie_year == year):
+                        return Movie(movie_title, movie_year, genres)
 
-        return None
+                except (ValueError, IndexError) as e:
+                    logger.error(f"Line {line_number}: Unrecognized format \"{','.join(row)}\"")
+                    continue
+            return None
+
+
+
+
+
 
 
 

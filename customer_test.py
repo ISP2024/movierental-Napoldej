@@ -21,16 +21,16 @@ class CustomerTest(unittest.TestCase):
 
 	def test_billing(self):
 		# no convenient way to test billing since its buried in the statement() method.
-		self.c.add_rental(Rental(self.new_movie,4, NewRelease()))
-		self.c.add_rental(Rental(self.childrens_movie,6, ChildrensPrice()))
-		self.c.add_rental(Rental(self.regular_movie, 7, RegularPrice()))
+		self.c.add_rental(Rental(self.new_movie,4))
+		self.c.add_rental(Rental(self.childrens_movie,6))
+		self.c.add_rental(Rental(self.regular_movie, 7))
 		total = self.c.total_charge()
 		self.assertEqual(total, 27.5)
 
 	def test_rental_points(self):
-		self.c.add_rental(Rental(self.new_movie, 4, NewRelease()))
-		self.c.add_rental(Rental(self.childrens_movie, 5, ChildrensPrice()))
-		self.c.add_rental(Rental(self.regular_movie, 10, RegularPrice()))
+		self.c.add_rental(Rental(self.new_movie, 4))
+		self.c.add_rental(Rental(self.childrens_movie, 5))
+		self.c.add_rental(Rental(self.regular_movie, 10))
 		total_points = self.c.total_rental_points()
 		self.assertEqual(total_points, 6)
 	
@@ -42,7 +42,7 @@ class CustomerTest(unittest.TestCase):
 		self.assertIsNotNone(matches)
 		self.assertEqual("0.00", matches[1])
 		# add a rental
-		self.c.add_rental(Rental(self.new_movie, 4, NewRelease())) # days
+		self.c.add_rental(Rental(self.new_movie, 4)) # days
 		stmt = self.c.statement()
 		matches = re.match(pattern, stmt.replace('\n',''), flags=re.DOTALL)
 		self.assertIsNotNone(matches)
